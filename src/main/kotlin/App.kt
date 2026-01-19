@@ -1,4 +1,5 @@
 import dev.zacsweers.metro.createGraph
+import kotlin.system.exitProcess
 
 suspend fun main() {
     println("Hello, Kotlin!")
@@ -6,5 +7,8 @@ suspend fun main() {
     val appGraph = createGraph<AppGraph>()
     val repository = appGraph.repository
 
-    repository.getPost(1)
+    val res = repository.getPost(1)
+    println("MESA ME ${res.title}")
+
+    exitProcess(0)
 }
