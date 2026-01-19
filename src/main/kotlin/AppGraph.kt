@@ -1,5 +1,6 @@
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Binds
+import dev.zacsweers.metro.ContributesTo
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
 import kotlinx.serialization.json.Json
@@ -14,9 +15,15 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 interface AppGraph {
     val repository: Repository
 
+    @Binds val RepositoryImpl.bind: Repository
+}
+
+@ContributesTo(AppScope::class)
+interface NetworkGraph {
+
     @Provides
     fun providesInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
-        level = Level.BODY
+        level = Level.BASIC
     }
 
     @Provides
@@ -45,7 +52,5 @@ interface AppGraph {
     fun providesService(
         retrofit: Retrofit
     ): ApiService = retrofit.create(ApiService::class.java)
-
-    @Binds val RepositoryImpl.bind: Repository
 
 }
